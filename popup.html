@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tab Pauser</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>Tab Pauser</h1>
+      <label class="toggle" title="Enable or disable automatic pausing">
+        <input type="checkbox" id="enable-toggle" />
+        <span class="track"></span>
+      </label>
+    </header>
+
+    <div class="setting-row" id="timer-row">
+      <span class="setting-label">Pause inactive tabs after</span>
+      <input type="number" id="timer-input" min="1" max="120" />
+      <span class="setting-unit">min</span>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="section-header">Open Tabs</div>
+    <div id="tab-list"></div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

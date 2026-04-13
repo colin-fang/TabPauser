@@ -1,0 +1,231 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  background: #0f0f13;
+  color: #e8e8f0;
+  width: 400px;
+}
+
+.container {
+  padding: 14px 16px 16px;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e1e2e;
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #c8b8f8;
+}
+
+/* Toggle switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.track {
+  position: absolute;
+  inset: 0;
+  background: #2a2a3a;
+  border-radius: 20px;
+  transition: background 0.2s;
+}
+
+.track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: #606080;
+  border-radius: 50%;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.toggle input:checked + .track {
+  background: #4a3a8a;
+}
+
+.toggle input:checked + .track::after {
+  transform: translateX(16px);
+  background: #c8b8f8;
+}
+
+/* ── Settings row ───────────────────────────────────────────────────────── */
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  transition: opacity 0.2s;
+}
+
+.setting-row.dimmed {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.setting-label {
+  color: #a0a0b8;
+  white-space: nowrap;
+}
+
+.setting-unit {
+  color: #606080;
+}
+
+#timer-input {
+  width: 48px;
+  padding: 4px 8px;
+  background: #1a1a26;
+  border: 1px solid #3a3a52;
+  border-radius: 5px;
+  color: #e8e8f0;
+  font-size: 13px;
+  text-align: center;
+  outline: none;
+}
+
+#timer-input:focus {
+  border-color: #7c6ae0;
+}
+
+/* ── Stats line ─────────────────────────────────────────────────────────── */
+
+.stats {
+  font-size: 11px;
+  color: #50506a;
+  margin-bottom: 10px;
+}
+
+/* ── Section header ─────────────────────────────────────────────────────── */
+
+.section-header {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  color: #50506a;
+  margin-bottom: 6px;
+}
+
+.window-label {
+  font-size: 10px;
+  color: #40405a;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 8px 0 4px;
+  padding-left: 2px;
+}
+
+/* ── Tab list ───────────────────────────────────────────────────────────── */
+
+#tab-list {
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a3a transparent;
+}
+
+.tab-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 6px;
+  border-radius: 6px;
+  transition: background 0.1s;
+}
+
+.tab-row:hover {
+  background: #16162a;
+}
+
+.tab-favicon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 2px;
+}
+
+.tab-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #c8c8d8;
+  font-size: 12px;
+}
+
+/* ── Status badges ──────────────────────────────────────────────────────── */
+
+.tab-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+}
+
+.badge-active     { background: #1a3a2a; color: #60c890; }
+.badge-playing    { background: #1a2a3a; color: #60a8e0; }
+.badge-sleeping   { background: #1e1e2e; color: #50506a; }
+.badge-pinned     { background: #2a2a1a; color: #c8b060; }
+.badge-protected  { background: #2a1a3a; color: #a870e0; }
+.badge-background { background: #1a1a26; color: #60607a; }
+
+/* ── Lock button ────────────────────────────────────────────────────────── */
+
+.lock-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 3px;
+  border-radius: 4px;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  line-height: 1;
+}
+
+.lock-btn:hover:not(:disabled) {
+  opacity: 1;
+}
+
+.lock-btn.is-locked {
+  opacity: 0.9;
+}
+
+.lock-btn:disabled {
+  cursor: default;
+  opacity: 0.15;
+}
