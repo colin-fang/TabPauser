@@ -23,7 +23,9 @@ async function scheduleTabPause(tabId) {
   const { enabled, timerMinutes } = await getSettings();
   if (!enabled) return;
 
-  // Don't overwrite an alarm that's already counting down
+  // Only create an alarm if one isn't already running for this tab.
+  // Exception: when called after a full reschedule (timer changed), all
+  // alarms were already cleared before this runs, so this guard is a no-op.
   const existing = await chrome.alarms.get(ALARM_PREFIX + tabId);
   if (existing) return;
 
@@ -123,3 +125,30 @@ async function scheduleAllInactiveTabs() {
 
 chrome.runtime.onInstalled.addListener(scheduleAllInactiveTabs);
 chrome.runtime.onStartup.addListener(scheduleAllInactiveTabs);
+
+// ── Settings change listener ──────────────────────────────────────────────────
+
+chrome.storage.onChanged.addListener(async (changes) => {
+  // Timer duration changed: clear all existing alarms and reschedule from scratch
+  // so tabs immediately count down from the new duration, not the old one.
+  if (changes.timerMinutes) {
+    const allAlarms = await chrome.alarms.getAll();
+    for (const alarm of allAlarms) {
+      if (alarm.name.startsWith(ALARM_PREFIX)) chrome.alarms.clear(alarm.name);
+    }
+    await scheduleAllInactiveTabs();
+  }
+
+  // Extension toggled off: cancel every pending alarm
+  // Extension toggled on: start timers for all inactive tabs
+  if (changes.enabled) {
+    if (!changes.enabled.newValue) {
+      const allAlarms = await chrome.alarms.getAll();
+      for (const alarm of allAlarms) {
+        if (alarm.name.startsWith(ALARM_PREFIX)) chrome.alarms.clear(alarm.name);
+      }
+    } else {
+      await scheduleAllInactiveTabs();
+    }
+  }
+});
